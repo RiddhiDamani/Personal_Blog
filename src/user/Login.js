@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
-export default function Login({ setUser }) {
-  const [username, setUsername] = useState("");
-
-  function handleUsername(evt) {
-    setUsername(evt.target.value);
-  }
+export default function Login({ dispatchUser }) {
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    passwordRepeat: "",
+  });
 
   return (
     // onSubmit - When submit btn gets clicked, its going to trigger the onSubmit attribute.
@@ -13,7 +13,7 @@ export default function Login({ setUser }) {
     <form
       onSubmit={(evt) => {
         evt.preventDefault();
-        setUser(username);
+        dispatchUser({ type: "LOGIN", username: formData.username });
       }}
     >
       <label htmlFor="login-username">Username:</label>
@@ -21,12 +21,12 @@ export default function Login({ setUser }) {
         type="text"
         name="login-username"
         id="login-username"
-        value={username}
-        onChange={handleUsername}
+        value={formData.username}
+        onChange={(e) => setFormData({ ...formData, username: e.target.value })}
       />
       <label htmlFor="login-password">Password:</label>
       <input type="password" name="login-password" id="login-password" />
-      <input type="submit" value="Login" disabled={username.length === 0} />
+      <input type="submit" value="Login" disabled={formData.length === 0} />
     </form>
   );
 }
