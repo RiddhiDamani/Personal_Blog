@@ -1,9 +1,12 @@
+import React, { useState } from "react";
 import UserBar from "./user/UserBar";
 import CreatePost from "./CreatePost";
 import PostList from "./PostList";
 
 function App() {
-  const posts = [
+  const [user, setUser] = useState("");
+
+  const initialPosts = [
     {
       title: "My Post",
       content: "Some text",
@@ -30,15 +33,17 @@ function App() {
       author: "Paul",
     },
   ];
+
+  const [posts, setPosts] = useState(initialPosts);
   return (
     <div>
-      <UserBar />
+      <UserBar user={user} setUser={setUser} />
       <br />
       <br />
       <hr />
       <br />
-      <CreatePost user="Paul" />
-      <PostList posts={posts} />
+      {user && <CreatePost user={user} posts={posts} setPosts={setPosts} />}
+      {user && <PostList posts={posts} />}
     </div>
   );
 }
