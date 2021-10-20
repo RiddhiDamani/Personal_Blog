@@ -1,78 +1,77 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import UserBar from "./user/UserBar";
 import CreatePost from "./CreatePost";
 import PostList from "./PostList";
+import Header from "./user/Header";
+import appReducer from "./reducers";
+import { ThemeContext } from "./Contexts";
+import ChangeTheme from "./ChangeTheme";
 
 function App() {
-  //const [user, setUser] = useState("");
-  //const [posts, setPosts] = useState(initialPosts);
-
   const initialPosts = [
     {
       title: "My Post",
       content: "Some text",
       author: "Paul",
+      complete: false,
+      completedOn: undefined,
     },
     {
       title: "My Post",
       content: "Some text",
       author: "Paul",
+      complete: false,
+      completedOn: undefined,
     },
     {
       title: "My Post",
       content: "Some text",
       author: "Paul",
+      complete: false,
+      completedOn: undefined,
     },
     {
       title: "My Post",
       content: "Some text",
       author: "Paul",
+      complete: false,
+      completedOn: undefined,
     },
     {
       title: "My Post",
       content: "Some text",
       author: "Paul",
+      complete: false,
+      completedOn: undefined,
     },
   ];
 
-  function userReducer(state, action) {
-    switch (action.type) {
-      case "LOGIN":
-      case "REGISTER":
-        return action.username;
-      case "LOGOUT":
-        return "";
-      default:
-        throw new Error();
-    }
-  }
+  // Initializing default state of user and posts
+  const [state, dispatch] = useReducer(appReducer, {
+    user: "",
+    posts: initialPosts,
+  });
 
-  function postsReducer(state, action) {
-    switch (action.type) {
-      case "CREATE_POST":
-        const newPost = {
-          title: action.title,
-          content: action.content,
-          author: action.author,
-        };
-        return [newPost, ...state];
-      default:
-        throw new Error();
-    }
-  }
+  const { user, posts } = state;
 
-  const [user, dispatchUser] = useReducer(userReducer, "");
-  const [posts, dispatchPosts] = useReducer(postsReducer, initialPosts);
+  const [theme, setTheme] = useState({
+    primaryColor: "deepskyblue",
+    secondaryColor: "coral",
+  });
 
   return (
     <div>
-      <UserBar user={user} dispatchUser={dispatchUser} />
-      <br />
-      <br />
-      <hr />
-      <br />
-      {user && <CreatePost user={user} dispatchPosts={dispatchPosts} />}
-      {user && <PostList posts={posts} />}
+      <ThemeContext.Provider value={theme}>
+        <Header text="My Blog" />
+        <ChangeTheme theme={theme} setTheme={setTheme} />
+        <UserBar user={user} dispatch={dispatch} />
+        <br />
+        <br />
+        <hr />
+        <br />
+        {user && <CreatePost user={user} dispatch={dispatch} />}
+        {user && <PostList posts={posts} dispatch={dispatch} />}
+      </ThemeContext.Provider>
     </div>
   );
 }

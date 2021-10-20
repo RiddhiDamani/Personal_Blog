@@ -1,17 +1,16 @@
 import React from "react";
-
 import Logout from "./Logout";
 import Register from "./Register";
 import Login from "./Login";
 
-export default function UserBar({ user, dispatchUser }) {
+export default function UserBar({ user, dispatch }) {
   if (user) {
-    return <Logout user={user} dispatchUser={dispatchUser} />;
+    return <Logout user={user} dispatch={dispatch} />;
   } else {
     return (
       <>
-        <Login dispatchUser={dispatchUser} />
-        <Register dispatchUser={dispatchUser} />
+        <Login dispatch={dispatch} />
+        <Register dispatch={dispatch} />
       </>
     );
   }
