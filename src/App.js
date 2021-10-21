@@ -38,6 +38,7 @@ function App() {
     posts: [],
   });
 
+  // eslint-disable-next-line
   useEffect(getPosts, []);
 
   useEffect(() => {

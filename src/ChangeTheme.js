@@ -1,9 +1,5 @@
 import React, { useEffect } from "react";
 import { useResource } from "react-request-hook";
-// const THEMES = [
-//   { primaryColor: "deepskyblue", secondaryColor: "coral" },
-//   { primaryColor: "orchid", secondaryColor: "green" },
-// ];
 
 function ThemeItem({ theme, active, onClick }) {
   return (
@@ -22,19 +18,12 @@ function ThemeItem({ theme, active, onClick }) {
 }
 
 export default function ChangeTheme({ theme, setTheme }) {
-  //const [themes, setThemes] = useState([]);
-
-  // useEffect(() => {
-  //   fetch("/api/themes")
-  //     .then((r) => r.json())
-  //     .then((t) => setThemes(t));
-  // }, []);
-
   const [themes, getThemes] = useResource(() => ({
     url: "/themes",
     method: "get",
   }));
 
+  // eslint-disable-next-line
   useEffect(getThemes, []);
 
   const { data, isLoading } = themes;
@@ -48,7 +37,7 @@ export default function ChangeTheme({ theme, setTheme }) {
   return (
     <div>
       Change theme:
-      {isLoading && "Loading themes..."}
+      {isLoading && " Loading themes..."}
       {data &&
         data.map((t, i) => (
           <ThemeItem
@@ -57,7 +46,7 @@ export default function ChangeTheme({ theme, setTheme }) {
             active={isActive(t)}
             onClick={() => setTheme(t)}
           />
-        ))}{" "}
+        ))}
     </div>
   );
 }
