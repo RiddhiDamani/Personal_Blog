@@ -4,7 +4,7 @@ import CreatePost from "./CreatePost";
 import PostList from "./PostList";
 import Header from "./user/Header";
 import appReducer from "./reducers";
-import { ThemeContext } from "./Contexts";
+import { ThemeContext, StateContext } from "./Contexts";
 import ChangeTheme from "./ChangeTheme";
 
 function App() {
@@ -52,7 +52,7 @@ function App() {
     posts: initialPosts,
   });
 
-  const { user, posts } = state;
+  const { user } = state;
 
   const [theme, setTheme] = useState({
     primaryColor: "deepskyblue",
@@ -62,15 +62,17 @@ function App() {
   return (
     <div>
       <ThemeContext.Provider value={theme}>
-        <Header text="My Blog" />
-        <ChangeTheme theme={theme} setTheme={setTheme} />
-        <UserBar user={user} dispatch={dispatch} />
-        <br />
-        <br />
-        <hr />
-        <br />
-        {user && <CreatePost user={user} dispatch={dispatch} />}
-        {user && <PostList posts={posts} dispatch={dispatch} />}
+        <StateContext.Provider value={{ state: state, dispatch: dispatch }}>
+          <Header text="My Blog" />
+          <ChangeTheme theme={theme} setTheme={setTheme} />
+          <UserBar />
+          <br />
+          <br />
+          <hr />
+          <br />
+          {user && <CreatePost />}
+          {user && <PostList />}
+        </StateContext.Provider>
       </ThemeContext.Provider>
     </div>
   );

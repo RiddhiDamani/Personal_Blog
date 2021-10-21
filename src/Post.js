@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ThemeContext } from "./Contexts";
+import { ThemeContext, StateContext } from "./Contexts";
 
 export default function Post({
   title,
@@ -8,9 +8,9 @@ export default function Post({
   complete,
   completedOn,
   postId,
-  dispatch,
 }) {
   const { secondaryColor } = useContext(ThemeContext);
+  const { dispatch } = useContext(StateContext);
 
   return (
     <div>

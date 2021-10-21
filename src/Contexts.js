@@ -5,6 +5,7 @@ export const ThemeContext = React.createContext({
   secondaryColor: "coral",
 });
 
+// providing default valeus to state and dispatch
 export const StateContext = React.createContext({
   state: {},
   dispatch: () => {},

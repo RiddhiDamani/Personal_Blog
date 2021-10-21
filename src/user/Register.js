@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useContext } from "react";
+import { StateContext } from "../Contexts";
 
-export default function Register({ dispatch }) {
+export default function Register() {
+  const { dispatch } = useContext(StateContext);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
