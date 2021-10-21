@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useState, useEffect } from "react";
 import UserBar from "./user/UserBar";
 import CreatePost from "./CreatePost";
 import PostList from "./PostList";
@@ -6,51 +6,45 @@ import Header from "./user/Header";
 import appReducer from "./reducers";
 import { ThemeContext, StateContext } from "./Contexts";
 import ChangeTheme from "./ChangeTheme";
+import { useResource } from "react-request-hook";
 
 function App() {
-  const initialPosts = [
-    {
-      title: "My Post",
-      content: "Some text",
-      author: "Paul",
-      complete: false,
-      completedOn: undefined,
-    },
-    {
-      title: "My Post",
-      content: "Some text",
-      author: "Paul",
-      complete: false,
-      completedOn: undefined,
-    },
-    {
-      title: "My Post",
-      content: "Some text",
-      author: "Paul",
-      complete: false,
-      completedOn: undefined,
-    },
-    {
-      title: "My Post",
-      content: "Some text",
-      author: "Paul",
-      complete: false,
-      completedOn: undefined,
-    },
-    {
-      title: "My Post",
-      content: "Some text",
-      author: "Paul",
-      complete: false,
-      completedOn: undefined,
-    },
-  ];
+  // const initialPosts = [
+  //   {
+  //     title: "My Post",
+  //     content: "Some text",
+  //     author: "Paul",
+  //     complete: false,
+  //     completedOn: undefined,
+  //   },
+  //   {
+  //     title: "My Post",
+  //     content: "Some text",
+  //     author: "Paul",
+  //     complete: false,
+  //     completedOn: undefined,
+  //   },
+  // ];
+
+  //Define a new useResource Hook, where we request /posts:
+  const [posts, getPosts] = useResource(() => ({
+    url: "/posts",
+    method: "get",
+  }));
 
   // Initializing default state of user and posts
   const [state, dispatch] = useReducer(appReducer, {
     user: "",
-    posts: initialPosts,
+    posts: [],
   });
+
+  useEffect(getPosts, []);
+
+  useEffect(() => {
+    if (posts && posts.data) {
+      dispatch({ type: "FETCH_POSTS", posts: posts.data });
+    }
+  }, [posts]);
 
   const { user } = state;
 
