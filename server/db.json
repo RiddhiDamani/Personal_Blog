@@ -65,6 +65,18 @@
       "content": "Radhe",
       "author": "asas",
       "id": 13
+    },
+    {
+      "title": "sdfa",
+      "content": "asdfad",
+      "author": "riddhi",
+      "id": 14
+    },
+    {
+      "title": "asas",
+      "content": "asasa",
+      "author": "mayank",
+      "id": 15
     }
   ],
   "users": [
@@ -72,6 +84,16 @@
       "id": 1,
       "username": "paul",
       "password": "badpassword"
+    },
+    {
+      "username": "mayank",
+      "password": "radhe",
+      "id": 2
+    },
+    {
+      "username": "mayank",
+      "password": "radhe",
+      "id": 3
     }
   ],
   "themes": [

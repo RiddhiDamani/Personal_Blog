@@ -1,16 +1,11 @@
 import React, { useContext } from "react";
 import { ThemeContext, StateContext } from "./Contexts";
 
-export default function Post({
-  title,
-  content,
-  author,
-  complete,
-  completedOn,
-  postId,
-}) {
+function Post({ title, content, author, complete, completedOn, postId }) {
   const { secondaryColor } = useContext(ThemeContext);
   const { dispatch } = useContext(StateContext);
+
+  console.log("Post Rendered!");
 
   return (
     <div>
@@ -49,3 +44,5 @@ export default function Post({
     </div>
   );
 }
+
+export default React.memo(Post);

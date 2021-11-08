@@ -60,7 +60,9 @@ function App() {
         <StateContext.Provider value={{ state: state, dispatch: dispatch }}>
           <Header text="My Blog" />
           <ChangeTheme theme={theme} setTheme={setTheme} />
-          <UserBar />
+          <React.Suspense fallback={"Loading..."}>
+            <UserBar />
+          </React.Suspense>
           <br />
           <br />
           <hr />
