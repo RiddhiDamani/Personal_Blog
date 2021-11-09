@@ -1,5 +1,5 @@
 {
-  "name": "inclassdemo",
+  "name": "blogreactjs",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,8 +7,10 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.23.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "navi": "^0.14.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "react-navi": "^0.14.4",
     "react-request-hook": "^2.1.1",
     "react-scripts": "^4.0.3",
     "web-vitals": "^1.1.2"

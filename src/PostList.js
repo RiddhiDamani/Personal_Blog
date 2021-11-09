@@ -13,7 +13,8 @@ export default function PostList() {
           title={p.title}
           author={p.author}
           key={"post-" + i}
-          postId={i}
+          postId={p.id}
+          short={true}
         />
       ))}
     </div>
