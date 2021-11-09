@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ThemeContext, StateContext } from "./Contexts";
 import { Link } from "react-navi";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
+import { useResource } from "react-request-hook";
 
 function Post({
   title,
@@ -15,7 +16,18 @@ function Post({
   const { secondaryColor } = useContext(ThemeContext);
   const { dispatch } = useContext(StateContext);
 
+  const [deletedPost, deletePost] = useResource((postId) => ({
+    url: `/posts/${postId}`,
+    method: "delete",
+  }));
+
   //console.log("Post Rendered!");
+
+  useEffect(() => {
+    if (deletedPost && deletedPost.data && deletedPost.isLoading === false) {
+      dispatch({ type: "DELETE_POST", postId: postId });
+    }
+  }, [deletedPost]);
 
   let processedContent = content;
   if (short) {
@@ -38,6 +50,14 @@ function Post({
           </i>
         </Card.Subtitle>
         <Card.Text>{processedContent}</Card.Text>
+        <Button
+          variant="link"
+          onClick={(e) => {
+            deletePost(postId);
+          }}
+        >
+          Delete Post
+        </Button>
         {short && <Link href={`/post/${postId}`}>View full post</Link>}
       </Card.Body>
     </Card>

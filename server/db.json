@@ -9,34 +9,12 @@
       "completedOn": null
     },
     {
-      "title": "XXXXXX",
-      "content": "Test Post",
-      "author": "Paul",
-      "complete": false,
-      "completedOn": null,
-      "id": 4
-    },
-    {
       "title": "Test 69",
       "content": "Test Post 1",
       "author": "Riddhi",
       "complete": false,
       "completedOn": null,
       "id": 6
-    },
-    {
-      "title": "Test 70",
-      "content": "Test Post 2",
-      "author": "Riddhi",
-      "complete": false,
-      "completedOn": null,
-      "id": 7
-    },
-    {
-      "title": "hello",
-      "content": "how are",
-      "author": "mayank",
-      "id": 8
     }
   ],
   "users": [

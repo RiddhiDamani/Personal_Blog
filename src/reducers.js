@@ -38,7 +38,7 @@ function postsReducer(state, action) {
       // excludes the post matching the index of the post we want to delete
       // p = post itself, i = index of the post
       // if it matches then will not be in our filter list, else it will be.
-      return state.filter((p, i) => i !== action.postId);
+      return state.filter((p) => p.id !== action.postId);
     case "FETCH_POSTS":
       return action.posts;
     default:
