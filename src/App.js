@@ -7,6 +7,7 @@ import { mount, route } from "navi";
 import CreatePost from "./CreatePost";
 import PostPage from "./pages/PostPage";
 import { Router, View } from "react-navi";
+import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   // const initialPosts = [
@@ -67,11 +68,11 @@ function App() {
       <ThemeContext.Provider value={theme}>
         <StateContext.Provider value={{ state: state, dispatch: dispatch }}>
           <Router routes={routes}>
-            <div style={{ padding: 8 }}>
+            <Container>
               <HeaderBar setTheme={setTheme} />
               <hr />
               <View />
-            </div>
+            </Container>
           </Router>
 
           {/* <Header text="My Blog" />

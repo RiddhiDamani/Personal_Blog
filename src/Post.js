@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ThemeContext, StateContext } from "./Contexts";
 import { Link } from "react-navi";
+import { Card } from "react-bootstrap";
 
 function Post({
   title,
@@ -24,50 +25,22 @@ function Post({
   }
 
   return (
-    <div>
-      <Link href={`/post/${postId}`}>
-        <h3 style={{ color: secondaryColor }}>{title}</h3>
-      </Link>
-
-      <div>{processedContent}</div>
-      {short && (
-        <div>
-          <br />
-          <Link href={`/post/${postId}`}>View full post</Link>
-        </div>
-      )}
-
-      <br />
-      <i>
-        Written by <b>{author}</b>
-      </i>
-      <input
-        type="checkbox"
-        onClick={(e) => {
-          dispatch({
-            type: "TOGGLE_POST",
-            complete: !complete,
-            postId: postId,
-          });
-        }}
-      ></input>
-      <button
-        onClick={(e) => {
-          dispatch({ type: "DELETE_POST", postId: postId });
-        }}
-      >
-        Delete Post
-      </button>
-      {complete && (
-        <>
-          <br />
+    <Card>
+      <Card.Body>
+        <Card.Title>
+          <Link style={{ color: secondaryColor }} href={`/post/${postId}`}>
+            {title}
+          </Link>
+        </Card.Title>
+        <Card.Subtitle>
           <i>
-            Completed On: {new Date(completedOn).toLocaleDateString("en-us")}
+            Written by <b>{author}</b>
           </i>
-          <br />
-        </>
-      )}
-    </div>
+        </Card.Subtitle>
+        <Card.Text>{processedContent}</Card.Text>
+        {short && <Link href={`/post/${postId}`}>View full post</Link>}
+      </Card.Body>
+    </Card>
   );
 }
 
