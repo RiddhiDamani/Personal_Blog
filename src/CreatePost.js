@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { StateContext } from "./Contexts";
 import { useResource } from "react-request-hook";
+import { useNavigation } from "react-navi";
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const navigation = useNavigation();
 
   //Passing object into a createPost call
   const [post, createPost] = useResource(({ title, content, author }) => ({
@@ -39,6 +41,7 @@ export default function CreatePost() {
         id: post.data.id,
         author: state.user,
       });
+      navigation.navigate(`/post/${post.data.id}`);
     }
     // eslint-disable-next-line
   }, [post]);
