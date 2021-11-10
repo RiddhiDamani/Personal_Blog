@@ -43,6 +43,8 @@ router.post("/login", async function (req, res, next) {
   if (req.body.username && req.body.password) {
     //res.send("Valid Request");
     // perform credential validation
+    // Query the user records to find a user with username === req.body.user, select password (hashed)
+    // use bcrypt to compare req.body.password to password hash retrieved from mongoDb
     return await bcrypt
       .compare(
         req.body.password,
@@ -50,6 +52,7 @@ router.post("/login", async function (req, res, next) {
       )
       .then((result) => {
         if (result === true) {
+          // replace 'pretend_user_id with users actual _id'
           const token = jwt.sign({ id: "pretend_user_id" }, privateKey, {
             algorithm: "RS256",
             //return res.status(200).send("Password Matches!");
@@ -69,11 +72,13 @@ router.post("/register", function (req, res, next) {
   //res.send("register request");
   if (req.body.username && req.body.password && req.body.passwordConfirmation) {
     if (req.body.password === req.body.passwordConfirmation) {
+      // store username and password (hashed)
+      // respond with userId of persisted user
       res.json({
         password: req.body.password,
         hashedPassword: req.hashedPassword,
       });
-      res.send("Valid Request");
+      //res.send("Valid Request");
     }
     res.status(400).json({ error: "Password not matching!" });
     // perform credential validation
