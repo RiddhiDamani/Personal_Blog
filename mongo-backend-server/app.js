@@ -4,8 +4,8 @@ var logger = require("morgan");
 
 require("./models/setupMongo")();
 
-var postRouter = require("./routes/post");
 var authRouter = require("./routes/auth");
+var postRouter = require("./routes/post");
 
 var app = express();
 
@@ -14,6 +14,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", authRouter);
-// app.use("/users", usersRouter);
+app.use("/post", postRouter);
 
 module.exports = app;

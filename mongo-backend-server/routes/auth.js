@@ -40,50 +40,47 @@ router.use(function (req, res, next) {
 
 // Handling 2 forms of Request for Authorization - Login and Registration
 router.post("/login", async function (req, res, next) {
-  //res.send("login request");
-  //res.send(req.body);
   if (req.body.username && req.body.password) {
-    //res.send("Valid Request");
-    // perform credential validation
-    // Query the user records to find a user with username === req.body.user, select password (hashed)
-    // use bcrypt to compare req.body.password to password hash retrieved from mongoDb
-    return await bcrypt
-      .compare(
-        req.body.password,
-        "$2b$10$fceFIbsHsWAVb8cWifE54.Le0W.ff9ZgGOQWs6.oTk9p6lOrAtOV."
-      )
-      .then((result) => {
-        if (result === true) {
-          // replace 'pretend_user_id with users actual _id'
-          const token = jwt.sign({ id: "pretend_user_id" }, privateKey, {
-            algorithm: "RS256",
-            //return res.status(200).send("Password Matches!");
-          });
-          return res.status(200).json({ access_token: token });
-        }
-      })
-      .catch((error) => {
-        return res.status(500).json({ error: error.message });
-      });
+    const user = await User.findOne()
+      .where("username")
+      .equals(req.body.username)
+      .exec();
+
+    if (user) {
+      return bcrypt
+        .compare(req.body.password, user.password)
+        .then((result) => {
+          if (result === true) {
+            const token = jwt.sign({ id: user._id }, privateKey, {
+              algorithm: "RS256",
+            });
+            return res.status(200).json({ access_token: token });
+          } else {
+            return res.status(401).json({ error: "Invalid credentials." });
+          }
+        })
+        .catch((error) => {
+          return res.status(500).json({ error: error.message });
+        });
+    }
+
+    return res.status(401).json({ error: "Invalid credentials." });
   } else {
     res.status(400).json({ error: "Username or Password Missing" });
   }
 });
 
 router.post("/register", async function (req, res, next) {
-  //res.send("register request");
   if (req.body.username && req.body.password && req.body.passwordConfirmation) {
     if (req.body.password === req.body.passwordConfirmation) {
-      // store username and password (hashed)
-      // respond with userId of persisted user
       const user = new User({
         username: req.body.username,
         password: req.hashedPassword,
       });
-
       await user
         .save()
         .then((savedUser) => {
+          console.log();
           return res.status(201).json({
             id: savedUser._id,
             username: savedUser.username,
@@ -92,15 +89,8 @@ router.post("/register", async function (req, res, next) {
         .catch((error) => {
           return res.status(500).json({ error: error.message });
         });
-
-      res.json({
-        password: req.body.password,
-        hashedPassword: req.hashedPassword,
-      });
-      //res.send("Valid Request");
     }
-    res.status(400).json({ error: "Password not matching!" });
-    // perform credential validation
+    res.status(400).json({ error: "Passwords not matching" });
   } else {
     res.status(400).json({ error: "Username or Password Missing" });
   }
