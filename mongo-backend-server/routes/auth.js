@@ -5,6 +5,8 @@ var router = express.Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+const User = require("../models/User");
+
 // Generating JWT Token
 const jwt = require("jsonwebtoken");
 const privateKey = `
@@ -68,12 +70,29 @@ router.post("/login", async function (req, res, next) {
   }
 });
 
-router.post("/register", function (req, res, next) {
+router.post("/register", async function (req, res, next) {
   //res.send("register request");
   if (req.body.username && req.body.password && req.body.passwordConfirmation) {
     if (req.body.password === req.body.passwordConfirmation) {
       // store username and password (hashed)
       // respond with userId of persisted user
+      const user = new User({
+        username: req.body.username,
+        password: req.hashedPassword,
+      });
+
+      await user
+        .save()
+        .then((savedUser) => {
+          return res.status(201).json({
+            id: savedUser._id,
+            username: savedUser.username,
+          });
+        })
+        .catch((error) => {
+          return res.status(500).json({ error: error.message });
+        });
+
       res.json({
         password: req.body.password,
         hashedPassword: req.hashedPassword,

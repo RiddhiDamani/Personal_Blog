@@ -2,6 +2,8 @@ var express = require("express");
 var path = require("path");
 var logger = require("morgan");
 
+require("./models/setupMongo")();
+
 var postRouter = require("./routes/post");
 var authRouter = require("./routes/auth");
 
